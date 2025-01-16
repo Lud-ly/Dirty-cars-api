@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  database:
+    image: "mysql:latest"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: main_apicardevlm
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma_apicars
+    links:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - "8083:80"
+    networks:
+      - app-network
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    container_name: mailcatcher
+    ports:
+      - "1025:1025"
+      - "1080:1080"
+
+networks:
+  app-network:
+    driver: bridge

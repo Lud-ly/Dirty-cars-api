@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition duration-500">
+        <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+            <h2 class="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+                S'inscrire
+            </h2>
+        </div>
+
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                {{ form_start(registrationForm, {attr: {class: "space-y-6"}}) }}
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {{ form_label(registrationForm.email) }}
+                    </label>
+                    {{ form_widget(registrationForm.email, {
+                        attr: {class: "appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"}
+                    }) }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {{ form_label(registrationForm.plainPassword) }}
+                    </label>
+                    {{ form_widget(registrationForm.plainPassword, {
+                        attr: {class: "appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"}
+                    }) }}
+                </div>
+
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        {{ form_widget(registrationForm.agreeTerms, { 
+                            attr: {class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"} 
+                        }) }}
+                    </div>
+                    <div class="ml-2 text-sm">
+                        <label class="font-medium text-gray-700 dark:text-gray-300">
+                            {{ form_label(registrationForm.agreeTerms) }}
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Register
+                    </button>
+                </div>
+
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

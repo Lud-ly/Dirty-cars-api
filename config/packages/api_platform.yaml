@@ -1,0 +1,21 @@
+api_platform:
+  title: Dirty Cars API
+  version: 1.0.0
+  show_webby: false
+  openapi: 
+
+    swagger_ui_extra_configuration:
+            docExpansion: 'none'
+            filter: false
+  defaults:
+    stateless: true
+    cache_headers:
+      vary: ["Content-Type", "Authorization", "Origin"]
+
+  collection:
+    pagination:
+      enabled: true
+      page_parameter_name: page
+      items_per_page_parameter_name: itemsPerPage
+      enabled_parameter_name: enabled
+      partial_parameter_name: partial
