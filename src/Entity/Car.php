@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CarRepository;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
@@ -15,7 +20,41 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['car:read']]
+    operations: [
+        new Get(),
+        new Get(
+            name: 'premium',
+            uriTemplate: '/cars/{id}/premium',
+            normalizationContext: ['groups' => ['car:read', 'car:readitem', 'car:premium']],
+            security: "is_granted('ROLE_PREMIUM')"
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => ['car:read']]
+        ),
+          // Création réservée aux ADMIN
+        new Post(
+            security: "is_granted('ROLE_ADMIN')",
+            securityMessage: "Accès refusé : seuls les administrateurs peuvent créer des ressources."
+        ),
+        
+        // Modification complète réservée aux ADMIN
+        new Put(
+            security: "is_granted('ROLE_ADMIN')",
+            securityMessage: "Accès refusé : seuls les administrateurs peuvent modifier des ressources."
+        ),
+        
+        // Modification partielle réservée aux ADMIN
+        new Patch(
+            security: "is_granted('ROLE_ADMIN')",
+            securityMessage: "Accès refusé : seuls les administrateurs peuvent modifier des ressources."
+        ),
+        
+        // Suppression réservée aux ADMIN
+        new Delete(
+            security: "is_granted('ROLE_ADMIN')",
+            securityMessage: "Accès refusé : seuls les administrateurs peuvent supprimer des ressources."
+        )
+    ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['brand' => 'exact', 'category.name' => 'exact'])]
 class Car
@@ -23,63 +62,63 @@ class Car
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:read'])]
     private ?string $brand = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['car:read' , 'car:write'])]
+    #[Groups(['car:read'])]
     private ?string $model = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:readitem'])]
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:read'])]
     private ?int $year = null;
 
     #[ORM\Column]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:readitem'])]
     private ?float $price = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:readitem'])]
     private ?string $engineType = null;  // Type Moteur
 
     #[ORM\Column]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:readitem'])]
     private ?int $horsepower = null;  // Puissance
 
     #[ORM\Column]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:readitem'])]
     private ?int $torque = null;  // Couple moteur
 
     #[ORM\Column]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:readitem'])]
     private ?float $topSpeed = null;  // Vitesse max
 
     #[ORM\Column]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:premium'])]
     private ?float $acceleration = null;  // 0-100 km/h
 
     #[ORM\Column(length: 50)]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:premium'])]
     private ?string $fuelType = null;  // Essence, Hybride
 
     #[ORM\Column(length: 50)]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:premium'])]
     private ?string $transmission = null;  // Manuelle, Auto
 
     #[ORM\Column(length: 50)]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:premium'])]
     private ?string $drivetrain = null;  // Propulsion, AWD
 
     #[ORM\Column]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:readitem'])]
     private ?int $weight = null; 
 
 
@@ -87,7 +126,7 @@ class Car
      * @var Collection<int, Review>
      */
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'car')]
-    #[Groups(['car:read'])]
+    #[Groups(['car:premium'])]
     private Collection $reviews;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -95,11 +134,11 @@ class Car
     private ?string $img_path = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'cars')]
-    #[Groups(['car:read', 'category:read'])]
+    #[Groups(['car:readitem', 'category:read'])]
     private ?Category $category = null;
 
     #[ORM\OneToMany(mappedBy: 'car', targetEntity: CarImage::class, cascade: ['persist', 'remove'])]
-    #[Groups(['car:read', 'car:write'])]
+    #[Groups(['car:premium'])]
     private Collection $images;
 
     public function __construct()

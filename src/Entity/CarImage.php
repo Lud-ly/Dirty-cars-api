@@ -4,15 +4,27 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ImageRepository;
+use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['image:read']],
-    denormalizationContext: ['groups' => ['image:write']]
+    operations: [
+        new Post(
+            name: 'image_premium',
+            uriTemplate: '/car_images/premium',
+            normalizationContext: ['groups' => ['car:read', 'car:readitem', 'car:premium']],
+            security: "is_granted('ROLE_PREMIUM')",
+            securityMessage: "Accès refusé : cette action est réservée aux membres Premium. Veuillez souscrire à la formule Premium ou contacter le support."
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => ['image:read']]
+        )
+    ]
 )]
 class CarImage
 {
