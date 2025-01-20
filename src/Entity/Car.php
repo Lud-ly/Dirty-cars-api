@@ -28,6 +28,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => ['car:read', 'car:readitem', 'car:premium']],
             security: "is_granted('ROLE_PREMIUM')"
         ),
+        new Get(
+            name: 'gold',
+            uriTemplate: '/cars/{id}/gold',
+            normalizationContext: ['groups' => ['car:read', 'car:readitem', 'car:premium', 'car:gold']],
+            security: "is_granted('ROLE_GOLD')"
+        ),
         new GetCollection(
             normalizationContext: ['groups' => ['car:read']]
         ),
@@ -78,7 +84,7 @@ class Car
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['car:read'])]
+    #[Groups(['car:readitem'])]
     private ?int $year = null;
 
     #[ORM\Column]
@@ -118,7 +124,7 @@ class Car
     private ?string $drivetrain = null;  // Propulsion, AWD
 
     #[ORM\Column]
-    #[Groups(['car:readitem'])]
+    #[Groups(['car:premium'])]
     private ?int $weight = null; 
 
 
@@ -138,7 +144,7 @@ class Car
     private ?Category $category = null;
 
     #[ORM\OneToMany(mappedBy: 'car', targetEntity: CarImage::class, cascade: ['persist', 'remove'])]
-    #[Groups(['car:premium'])]
+    #[Groups(['car:gold'])]
     private Collection $images;
 
     public function __construct()

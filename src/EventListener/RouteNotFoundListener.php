@@ -16,7 +16,7 @@ class RouteNotFoundListener
         if ($exception instanceof NotFoundHttpException) {
             $response = new JsonResponse([
                 'status' => '⛔ error ⛔',
-                'message' => 'La route demandée n\'existe pas dans cette API dirtyCars.',
+                'message' => 'La route demandée n\'existe pas.',
                 'solution' => 'Veuillez vérifier l\'URL ou consulter la documentation de l\'API.'
             ], 404);
 

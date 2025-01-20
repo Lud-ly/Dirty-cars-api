@@ -3,47 +3,16 @@
 {% block title %}Dirty Cars API{% endblock %}
 
 {% block body %}
-<style>
-    body {
-        background-color: #000;
-        color: white;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
-
-    .wrapper {
-        margin: 2em auto;
-        max-width: 900px;
-        width: 95%;
-        font-size: 18px;
-    }
-      .header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-  
-    footer {
-        background-color: #111;
-        color: white;
-        text-align: center;
-        padding: 1em 0;
-        margin-top: auto;
-        width: 100%;
-    }
-</style>
-
-<div class="wrapper">
-
+<div class="mx-auto max-w-3xl w-11/12 text-lg flex items-center justify-center min-h-screen">
     <div class="header">
-        <img src="/images/icon.png" alt="Dirty Cars Logo">
-        <h1>Dirty Cars API!</h1>
+        <img src="/images/icon2.png" alt="Dirty Cars Logo" 
+        class="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-gray-300 shadow-lg dark:border-gray-600">
+        <h1 class="text-center py-4">
+            <a href="{{ path('app_register') }}" class="bg-transparent hover:bg-blue-700 mt-5 text-dark font-bold py-3 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-transform duration-300">
+                S'inscrire
+            </a>
+            <a href="{{ path('api_doc') }}" class="text-blue-500 hover:text-blue-700">Accéder à l'API Swagger</a> 
+        </h1>
     </div>
 </div>
-<footer>
-    <p>&copy; 2025 Dirty Cars API. All rights reserved.</p>
-</footer>
 {% endblock %}
