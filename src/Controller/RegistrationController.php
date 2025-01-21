@@ -131,7 +131,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', 'Votre email a bien été vérifié. Vous pouvez vous connecter.');
+        $this->addFlash('success', 'Votre email a bien été vérifié. Vous pouvez tester l\'api via le swagger ui.');
         return $this->redirectToRoute('app_home');
     }
 }
