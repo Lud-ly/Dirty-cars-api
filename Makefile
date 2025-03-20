@@ -2,7 +2,7 @@
 
 deploy:
 	@echo "Starting deployment... 🚀"
-	ssh -i ~/.ssh/id_ed25519 pw2zpk_ludom@pw2zpk.ftp.infomaniak.com 'cd sites/apicars.devlm.fr && git pull origin main && make install'
+	ssh -i ~/.ssh/id_ed25519_apicars2025 pw2zpk_ludom@pw2zpk.ftp.infomaniak.com 'cd sites/apicars.devlm.fr && git pull origin main && make install'
 	@echo "Deployment successful! 🎉✅"
 
 install: vendor/autoload.php
