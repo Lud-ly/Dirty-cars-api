@@ -24,13 +24,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(),
         new Get(
             name: 'premium',
-            uriTemplate: '/cars/{id}/premium',
+            uriTemplate: '/cars/premium/{id}',
             normalizationContext: ['groups' => ['car:read', 'car:readitem', 'car:premium']],
             security: "is_granted('ROLE_PREMIUM')"
         ),
         new Get(
             name: 'gold',
-            uriTemplate: '/cars/{id}/gold',
+            uriTemplate: '/cars/gold/{id}',
             normalizationContext: ['groups' => ['car:read', 'car:readitem', 'car:premium', 'car:gold']],
             security: "is_granted('ROLE_GOLD')"
         ),
