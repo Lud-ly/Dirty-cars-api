@@ -134,6 +134,14 @@
         </div>
 
         <div class="mt-16 mb-12">
+            <p class="text-xl text-gray-600 mb-8">
+                Nombres de voitures par categories :
+            </p>
+            <div class="flex flex-row gap-6 justify-center">
+                {% for category in categories %}
+                    <p class="bg-blue-100 text-blue-800 px-3 py-1 rounded mr-3 font-mono"><span>{{ category.name }}</span> - <span>{{ category.count }}</span></p>
+                {% endfor %}
+            </div>
             <div class="dark:bg-gray-900 p-6 rounded-lg shadow-lg">
                 <div class="flex items-center mb-4 bg-gray-800 px-4 py-2 rounded">
                     <span class="text-green-400 font-mono mr-2">
@@ -144,6 +152,9 @@
                     </span>
                 </div>
                 <div class="overflow-x-auto">
+                <p class="text-xl text-gray-600 mb-8">
+                Exemple de réponse :
+            </p>
                     <pre class="text-sm whitespace-pre-wrap"><code>{
     "@context": "/api/contexts/Car",
     "@id": "/api/cars/1",
